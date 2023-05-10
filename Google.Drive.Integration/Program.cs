@@ -11,7 +11,10 @@ var service = new DriveService(new BaseClientService.Initializer()
     HttpClientInitializer = credencial,
 });
 
-CriarArquivo("meuarquivo", "hello world");
+CriarArquivo("meu-arquivo.txt", "hello world");
+ListarArquivos();
+BaixarArquivo("1AB5p95sE1NQGdAlb_Q1aPjSs0I3BEtsz", "./meu-arquivo.txt");
+ExcluirArquivo("1AB5p95sE1NQGdAlb_Q1aPjSs0I3BEtsz");
 
 
 void CriarArquivo(string nomeDoArquivo, string conteudoDoArquivo)
@@ -36,7 +39,6 @@ void ExcluirArquivo(string arquivoId)
     var progress = deleteRequest.Execute();
     Console.WriteLine($"O arquivo com o Id {arquivoId} foi excluído com sucesso!");
 }
-ExcluirArquivo("1jh0Fietju12Kz4Hl2tL39-FW5B_MBvOI");
 
 void BaixarArquivo(string arquivoId, string caminhoLocal)
 {
@@ -47,14 +49,11 @@ void BaixarArquivo(string arquivoId, string caminhoLocal)
     }
     Console.WriteLine($"O arquivo com o Id {arquivoId} foi baixado com sucesso para o caminho {caminhoLocal}!");
 }
-BaixarArquivo("1AB5p95sE1NQGdAlb_Q1aPjSs0I3BEtsz", "./credecial");
 
- void ListarArquivos()
+
+void ListarArquivos()
 {
     var request = service.Files.List();
-    request.PageSize = 10;
-    request.Fields = "nextPageToken, files(id, name)";
-
     var result = request.Execute();
     Console.WriteLine("Arquivos no Google Drive:");
     if (result.Files != null && result.Files.Any())
@@ -69,4 +68,3 @@ BaixarArquivo("1AB5p95sE1NQGdAlb_Q1aPjSs0I3BEtsz", "./credecial");
         Console.WriteLine("Nenhum arquivo encontrado no Google Drive.");
     }
 }
-ListarArquivos();
